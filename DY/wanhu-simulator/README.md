@@ -37,7 +37,7 @@ npm run build:pages
 
 成功发布后的预期路径是 `https://dingyu6035-lang.github.io/codex-cloud-workspace/DY/wanhu-simulator/`；该路径必须经过 GitHub 部署成功及 HTTP 加载检查后，才可以当作已上线链接分享。
 
-当前尚未上线：环境的 GitHub API 访问被网络策略拒绝。必要的网络域名 `api.github.com` 和 `dingyu6035-lang.github.io` 已保存到环境配置草稿，需要在环境设置中审核保存并发布环境，再继续检查 Pages 设置、提交推送和远端部署。现有 GitHub 凭据变量已存在；尚未验证其 API 发布权限，不应重复申请密钥。
+代码已提交并推送到 `dy/wanhu-three-visuals` 分支，当前尚未上线：环境的 GitHub API 访问被网络策略拒绝。必要的网络域名 `api.github.com` 和 `dingyu6035-lang.github.io`，以及可复用安装和启动说明，均已保存到环境配置草稿。当前工具没有发布环境的入口，需要在产品环境设置中保存并发布草稿，再继续检查 Pages 设置、创建 PR 和远端部署。现有 GitHub 凭据变量已存在；尚未验证其 API 发布权限，不应重复申请密钥。
 
 ## 操作
 
