@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10223f">
+  <title>万户模拟器 · 向天而行</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div>
+        <div class="eyebrow"><span class="signal-dot"></span> WANHU FLIGHT LAB <span class="edition">/ VOL. 02</span></div>
+        <h1>万户模拟器<span class="title-star">✦</span></h1>
+        <p class="tagline">从一把木椅，到无垠星海。<br>点燃想象，向天空再近一步。</p>
+      </div>
+      <aside class="history-note"><span class="note-label">一场关于勇气的幻想实验</span>本试玩版取材于“万户飞天”传说进行幻想创作。它保留木椅、火药和纸鸢的意象，不把传说当作确证史实。</aside>
+    </header>
+
+    <section class="game-layout" aria-label="万户模拟器试玩区">
+      <div>
+        <div class="flight-heading"><span><i></i> 实时飞行舱</span><span id="rendererLabel">场景载入中</span></div><div class="game-frame"><canvas id="world" width="390" height="720" aria-hidden="true"></canvas>
+          <canvas id="game" width="390" height="720" aria-label="万户模拟器游戏画面"></canvas>
+          <div class="hud-tip">✦ 向天而行</div>
+          <div class="live-label">FLIGHT EXPERIMENT / 002</div>
+        </div>
+        <div class="guide">先进入起飞位，再<b>长按画面或空格键点火</b> · 起飞后自动上升，用左右移动躲开障碍</div>
+      </div>
+
+      <aside class="panel">
+        <div class="resource-row">
+          <div class="resource gold"><span class="label">金币储备</span><strong id="coinCount">0</strong></div>
+          <div class="resource gem"><span class="label">能量晶石</span><strong id="gemCount">0</strong></div>
+        </div>
+        <details class="gm-panel">
+          <summary>GM 管理 · 本地调试资源</summary>
+          <div class="gm-controls">
+            <input id="gmAmount" type="number" min="1" step="100" value="1000" aria-label="GM 增加数量">
+            <button class="gm-button" id="gmAddCoins">增加金币</button>
+            <button class="gm-button" id="gmAddGems">增加钻石</button>
+          </div>
+        </details>
+
+        <section class="status" aria-live="polite">
+          <div class="status-line"><span>飞行状态</span><span class="status-value" id="flightState">待命</span></div>
+          <div class="status-line"><span>现实坐标</span><span class="status-value" id="currentLocation">万户起飞台</span></div>
+          <div class="status-line"><span>本局最高</span><span class="status-value" id="bestRun">0 m</span></div>
+          <div class="status-line"><span>历史高度</span><span class="status-value" id="bestHeight">0 m</span></div>
+        </section>
+
+        <div class="section-caption">ENGINEERING BAY</div><h2>每一次改装，飞得更远<span>万户改装台</span></h2>
+        <div class="upgrades">
+          <article class="upgrade-card powder">
+            <div class="upgrade-top"><span class="upgrade-title">火箭当量</span><span class="level" id="powderLevel"></span></div>
+            <p>最高 999 级。强化每枚火箭的爆发推力；Lv.299 后进入深空增压段，持续提高初速度、续航与升空效率。</p>
+            <div class="upgrade-bottom"><span class="effect" id="powderEffect"></span><div class="upgrade-actions"><button class="upgrade-button" data-upgrade="powder"></button><button class="batch-button" data-upgrade="powder" data-amount="10">+10</button><button class="batch-button" data-upgrade="powder" data-amount="max">最大</button></div></div>
+          </article>
+          <article class="upgrade-card chair">
+            <div class="upgrade-top"><span class="upgrade-title">火箭数量</span><span class="level" id="chairLevel"></span></div>
+            <p>最高 99 级。每枚新增火箭都会增强起飞推力、燃烧续航和升空效率；Lv.30 后可组成多联深空推进阵列，价格高于另外两项。</p>
+            <div class="upgrade-bottom"><span class="effect" id="chairEffect"></span><div class="upgrade-actions"><button class="upgrade-button" data-upgrade="chair"></button><button class="batch-button" data-upgrade="chair" data-amount="10">+10</button><button class="batch-button" data-upgrade="chair" data-amount="max">最大</button></div></div>
+          </article>
+          <article class="upgrade-card kites">
+            <div class="upgrade-top"><span class="upgrade-title">椅子材料</span><span class="level" id="kitesLevel"></span></div>
+            <p>299 级材料跨度从木椅到星舟座舱；前期高度提升更克制，中后期材料性能会加速跃升。Lv.299「突破天穹」，不再限制飞行高度，只会在引擎熄灭时回落。</p>
+            <div class="upgrade-bottom"><span class="effect" id="kitesEffect"></span><div class="upgrade-actions"><button class="upgrade-button" data-upgrade="kites"></button><button class="batch-button" data-upgrade="kites" data-amount="10">+10</button><button class="batch-button" data-upgrade="kites" data-amount="max">最大</button></div></div>
+          </article>
+          <article class="upgrade-card appearance">
+            <div class="upgrade-top"><span class="upgrade-title">飞行器外观</span><span class="level" id="appearanceLevel"></span></div>
+            <p>共 20 阶。外观随椅子材料逐段解锁：普通飞行器、小火箭、大火箭、外星飞行装置，最终是曲率跃迁仪与曲率迁移飞行器。</p>
+            <div class="upgrade-bottom"><span class="effect" id="appearanceEffect"></span><div class="upgrade-actions"><button class="upgrade-button" data-upgrade="appearance"></button><button class="batch-button" data-upgrade="appearance" data-amount="10">+10</button><button class="batch-button" data-upgrade="appearance" data-amount="max">最大</button></div></div>
+          </article>
+          <article class="upgrade-card income">
+            <div class="upgrade-top"><span class="upgrade-title">金币收益</span><span class="level" id="incomeLevel"></span></div>
+            <p>提高空中金币拾取与落地结算的金币收益。飞得越高，经济成长越快。</p>
+            <div class="upgrade-bottom"><span class="effect" id="incomeEffect"></span><div class="upgrade-actions"><button class="upgrade-button" data-upgrade="income"></button><button class="batch-button" data-upgrade="income" data-amount="10">+10</button><button class="batch-button" data-upgrade="income" data-amount="max">最大</button></div></div>
+          </article>
+        </div>
+
+        <div class="breakthrough">
+          <div class="breakthrough-text"><strong id="breakthroughTitle">钻石突破：脉冲点火</strong><span id="breakthroughDescription">达到火箭当量 Lv.8 后，用 4 枚钻石解锁短时强推力。</span></div>
+          <button class="launch-button" id="breakthroughButton">未解锁</button>
+        </div>
+        <div class="atlas">
+          <strong>现实高度与远航星图</strong>
+          <p>100 km：卡门线 · 400 km：近地轨道 · 35,786 km：同步轨道 · 100,000 km：月球航线入口。</p>
+          <p>材料 Lv.299 后突破高度限制，可一直飞到引擎熄灭；外观科技会继续向月球、木星与深空文明的飞行器演进。</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="how" aria-label="玩法说明">
+      <div class="how-item"><div class="how-number">01</div><strong>蓄力，然后升空</strong><span>进入起飞位后长按点火；升空后自动飞行，左右移动躲避障碍。推力耗尽后回落。</span></div>
+      <div class="how-item"><div class="how-number">02</div><strong>风险换资源</strong><span>金币位于常规航道；钻石常在雷云边缘与鸟群夹缝。</span></div>
+      <div class="how-item"><div class="how-number">03</div><strong>改装后再起飞</strong><span>火箭当量、火箭数量、椅子材料都会提高可飞高度。抵达当前极限也会结算奖励。</span></div>
+    </section>
+    <div class="footer-row"><span class="version">WANHU FLIGHT LAB · 进度自动保存在当前浏览器</span><button class="reset-button" id="resetButton">清空存档并重新开始</button></div>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+
+  <script type="module" src="/src/game.js"></script>
+</body>
+</html>
