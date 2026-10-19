@@ -11,4 +11,6 @@ A general-purpose repository for projects and files that Codex should be able to
 
 ## Codex
 
+用户 DY 的项目与提交内容统一放在 [`DY/`](DY/README.md)，协作前请阅读其中的目录、分支和交接约定。
+
 Open this repository as the project for Codex cloud tasks. Cloud execution still depends on the task environment having the required runtimes, dependencies, and approved secrets/network access.
